@@ -1,0 +1,9 @@
+.guardrails/
+*.sarif
+__pycache__/
+.terraform/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+terraform/exposed-key-response/lambda.zip
+.env

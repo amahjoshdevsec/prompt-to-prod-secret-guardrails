@@ -1,0 +1,2 @@
+owner        = "your-github-username"
+repositories = ["guardrails-demo-app-1", "guardrails-demo-app-2", "guardrails-demo-app-3"]

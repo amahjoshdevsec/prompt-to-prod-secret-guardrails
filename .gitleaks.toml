@@ -1,0 +1,24 @@
+# Gitleaks config shared by every layer (prompt hook, pre-commit, CI).
+# One config everywhere means a secret blocked in the IDE is the same secret
+# blocked in the pipeline: no "it passed locally" surprises.
+
+title = "prompt-to-prod-secret-guardrails"
+
+[extend]
+# Keep all of Gitleaks' built-in rules (AWS, GitHub, Slack, private keys, ...)
+useDefault = true
+
+# Custom rule: default rules never know a company's own token formats.
+# "eqx_live_" / "eqx_test_" is a made-up internal API token format for this demo.
+[[rules]]
+id = "internal-api-token"
+description = "Internal API token (demo format eqx_live_/eqx_test_ + 32 chars)"
+regex = '''\b(eqx_(?:live|test)_[a-z0-9]{32})\b'''
+secretGroup = 1
+keywords = ["eqx_live_", "eqx_test_"]
+
+[allowlist]
+description = "Paths that may legitimately mention token formats"
+paths = [
+  '''(^|/)\.gitleaks-baseline\.json$''',
+]

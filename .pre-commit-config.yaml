@@ -1,0 +1,18 @@
+# Layer 2: commit-time checks. Install with `make setup` (runs `pre-commit install`).
+# Local hooks so the same .gitleaks.toml is used as the prompt hook and CI.
+repos:
+  - repo: local
+    hooks:
+      - id: gitleaks-staged
+        name: gitleaks (secrets in staged changes)
+        entry: bash hooks/precommit_gitleaks.sh
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: semgrep
+        name: semgrep (OWASP Top 10 SAST on changed files)
+        entry: semgrep scan --config p/owasp-top-ten --error --quiet
+        language: system
+        types_or: [python, javascript, ts, go, java, terraform]
+        stages: [pre-commit]
